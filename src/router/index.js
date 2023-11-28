@@ -14,7 +14,7 @@ const router = createRouter({
       name: "login",
       component: Login,
       meta: {
-        // guestRequired: true,
+        guestRequired: true,
       },
     },
     {
@@ -22,7 +22,7 @@ const router = createRouter({
       component: Index,
       redirect: { path: "/dashboard" },
       meta: {
-        // authRequired: true,
+        authRequired: true,
       },
       children: [
         {
@@ -56,7 +56,7 @@ const router = createRouter({
           component: () => import("@/views/kelas/Create.vue"),
         },
         {
-          path: "/kelas/edit",
+          path: "/kelas/edit/:id",
           name: "kelas-edit",
           component: () => import("@/views/kelas/Edit.vue"),
         },
@@ -71,13 +71,32 @@ const router = createRouter({
           component: () => import("@/views/mapel/Create.vue"),
         },
         {
-          path: "/mapel/edit",
+          path: "/mapel/edit/:id",
           name: "mapel-edit",
           component: () => import("@/views/mapel/Edit.vue"),
         },
       ],
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = localStorage.getItem("access_token");
+  if (to.matched.some((record) => record.meta.authRequired)) {
+    if (isLoggedIn == null) {
+      next("/login");
+    } else {
+      next();
+    }
+  } else if (to.matched.some((record) => record.meta.guestRequired)) {
+    if (isLoggedIn == null) {
+      next();
+    } else {
+      next("/beranda");
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

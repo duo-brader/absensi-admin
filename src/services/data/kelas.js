@@ -1,21 +1,21 @@
-import { ref } from "vue";
 import axios from "../axios";
+import { ref } from "vue";
 import useSwal from "../swal";
 import router from "../../router";
 
-export default function useMapel() {
-  const mapel = ref([]);
-  const { accepted, rejected, confirm } = useSwal();
+export default function useKelas() {
+  const kelas = ref([]);
+  const { accepted, confirm, rejected } = useSwal();
 
   async function index() {
-    const response = await axios.get("/api/v1/mapel");
+    const response = await axios.get("/api/v1/kelas");
     console.log(response.data);
-    mapel.value = response.data.mapel;
+    kelas.value = response.data.kelas;
   }
 
   async function store(payload) {
     try {
-      const response = await axios.post("/api/v1/mapel", payload);
+      const response = await axios.post("/api/v1/kelas", payload);
       console.log(response.data);
       accepted(response.data.message);
       router.back();
@@ -27,12 +27,18 @@ export default function useMapel() {
     }
   }
 
+  async function show(id) {
+    const response = await axios.get(`/api/v1/kelas/${id}`);
+    kelas.value = response.data.kelas;
+  }
+
   async function update(payload, id) {
-    const response = await confirm("yakin ubah data ini?");
+    const response = await confirm("Update data?");
 
     if (response.isConfirmed) {
       try {
-        const response = await axios.put(`/api/v1/mapel/${id}`, payload);
+        const response = await axios.put(`/api/v1/kelas/${id}`, payload);
+        console.log(payload);
         console.log(response.data);
         accepted(response.data.message);
         router.back();
@@ -45,18 +51,12 @@ export default function useMapel() {
     }
   }
 
-  async function show(id) {
-    const response = await axios.get(`/api/v1/mapel/${id}`);
-    console.log(response.data);
-    mapel.value = response.data.mapel;
-  }
-
   async function destroy(id) {
     const response = await confirm("Hapus data ini?");
 
     if (response.isConfirmed) {
       try {
-        const response = await axios.delete(`/api/v1/mapel/${id}`);
+        const response = await axios.delete(`/api/v1/kelas/${id}`);
         console.log(response.data);
         accepted(response.data.message);
         router.back();
@@ -71,10 +71,10 @@ export default function useMapel() {
 
   return {
     index,
-    mapel,
-    update,
-    show,
     store,
+    show,
+    update,
     destroy,
+    kelas,
   };
 }

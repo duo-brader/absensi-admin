@@ -53,24 +53,9 @@ export default function useSwal() {
     });
   }
 
-  async function rejectedSaldo(text = null) {
-    await Swal.fire({
-      icon: "error",
-      text:
-        text == null ? "Terjadi Kesalahan, Hubungi Administrator Anda" : text,
-      width: "250px",
-      // costum size small
-      customClass: {
-        title: "text-lg",
-        popup: "text-sm text-center",
-      },
-    });
-  }
-
   return {
     confirm,
     accepted,
     rejected,
-    rejectedSaldo,
   };
 }

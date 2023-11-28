@@ -2,6 +2,7 @@ import axios from "./axios";
 import useExecute from "./execute";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { isAxiosError } from "axios";
 
 export default function useAuthentication() {
   const auth = ref("");
@@ -13,25 +14,25 @@ export default function useAuthentication() {
   async function doLogin(payload) {
     try {
       await axios.get(`/sanctum/csrf-cookie`);
-      const response = await axios.post("/api/login", payload);
-      const token = await response.data.content.access_token;
-      const password = await response.data.content.password;
-
-      if(password == "adminadmin") {
-      accepted("Selamat Datang");
-      setHeaderToken(token);
-      router.push("/dashboard");
-      }else{
-      rejected('Anda Tidak Boleh Mengakses Halaman Ini!!!!')
+      const response = await axios.post("/api/v1/auth/login", payload);
+      const token = await response.data.data.token;
+      if (response.data.data.user.roles_id == 1) {
+        accepted("Selamat Datang");
+        setHeaderToken(token);
+        router.push("/dashboard");
+      } else {
+        rejected("Anda Tidak Boleh Mengakses Halaman Ini!!!!");
       }
     } catch (error) {
-      if (error.response.status === 401) {
-        (errors.value = error.response.data.message), rejected(errors.value);
+      if (axios.isAxiosError(error)) {
+        if (error.response.status === 401) {
+          (errors.value = error.response.data.message), rejected(errors.value);
+        }
+        if (error.response.status === 422)
+          errors.value = error.response.data.errors;
+        if (error.response.status === 500)
+          rejected("Server In Trouble call your administrator");
       }
-      if (error.response.status === 422)
-        errors.value = error.response.data.errors;
-      if (error.response.status === 500)
-        rejected("Server In Trouble call your administrator");
     }
   }
 
@@ -44,7 +45,7 @@ export default function useAuthentication() {
 
   async function getAuth() {
     try {
-      const response = await axios.get("/api/profile");
+      const response = await axios.get("/api/v1/profile");
       auth.value = await response.data;
     } catch (error) {
       removeHeaderToken();
@@ -57,7 +58,7 @@ export default function useAuthentication() {
     const response = await confirm("Apa anda ingin keluar?");
     if (response.isConfirmed) {
       try {
-        await axios.get("/api/logout");
+        await axios.post("/api/v1/auth/logout");
         removeHeaderToken();
         router.push("/login");
         await accepted("Anda telah keluar");
@@ -89,7 +90,6 @@ export default function useAuthentication() {
 
   async function indexUser() {
     const response = await axios.get("api/user/index");
-    console.log(response.data);
     user.value = response.data;
   }
 
