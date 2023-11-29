@@ -2,7 +2,7 @@
     <div class="mx-auto">
         <h2 class="text-lg font-medium text-gray-900">Dashboard</h2>
         <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-4">
-            <a v-for="(item, index) in menu" :key="index"
+            <a v-for="item in mergedData" :key="item.name"
                 class="relative bg-white py-4 px-4 sm:px-6 shadow rounded-lg overflow-hidden">
                 <dt>
                     <div class="absolute rounded-md bg-indigo-500 p-3">
@@ -13,24 +13,11 @@
                     </p>
                 </dt>
                 <dd class="ml-20 items-baseline pb-4">
-                    <p class="text-sm font-semibold text-slate-900">
-                        value
+                    <p v-if="item.value === 1 && absen.data" class="text-sm font-semibold text-slate-900">
+                        {{ absen.data.persentase }} %
                     </p>
-                </dd>
-            </a>
-            <a v-for="absensi in absen" :key="index"
-                class="relative bg-white py-4 px-4 sm:px-6 shadow rounded-lg overflow-hidden">
-                <dt>
-                    <div class="absolute rounded-md bg-indigo-500 p-3">
-                        <FingerPrintIcon class="h-8 w-8 text-white" aria-hidden="true" />
-                    </div>
-                    <p class="ml-20 truncate text-sm font-medium text-gray-500">
-                        Absensi
-                    </p>
-                </dt>
-                <dd class="ml-20 items-baseline pb-4">
-                    <p class="text-sm font-semibold text-slate-900">
-                        {{ absensi.persentase }} %
+                    <p v-else class="text-sm font-semibold text-slate-900">
+                        kosong
                     </p>
                 </dd>
             </a>
@@ -57,13 +44,18 @@ const menu = [
         name: "Mapel",
         icon: BookOpenIcon,
     },
-    // {
-    //     name: "Absensi",
-    //     icon: FingerPrintIcon,
-    // },
+    {
+        name: "Absensi",
+        icon: FingerPrintIcon,
+        value: 1,
+    },
 ];
 
+const mergedData = ref([]);
+
 onMounted(async () => {
-    index();
+    await index();
+    mergedData.value = [...menu, ...(absen.data ? [absen.data] : [])];
 });
+
 </script>
