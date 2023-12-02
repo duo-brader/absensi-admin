@@ -37,25 +37,24 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
-                    <tr>
-                        <td
-                            class="w-full max-w-0 py-2 text-xs font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-                            1 .
+                    <tr v-for="item in user">
+                        <td class="w-full max-w-0 py-2 text-xs font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+                            {{ i++ }}
                         </td>
                         <td class="pr-3 py-2 text-xs text-gray-500 lg:table-cell">
-                            02
+                            {{ item.roles_id }}
                         </td>
                         <td class="px-3 py-2 text-xs text-gray-500 lg:table-cell">
-                            03
+                            {{ item.mapel_id }}
                         </td>
                         <td class="px-3 py-2 text-xs text-gray-500 lg:table-cell">
-                            Decy Alam Santoso
+                            {{ item.nama }}
                         </td>
                         <td class="px-3 py-2 text-xs text-gray-500 lg:table-cell">
-                            decy_alam_santoso
+                            {{ item.username }}
                         </td>
                         <td class="px-3 py-2 text-xs text-gray-500 lg:table-cell">
-                            qwepoi
+                            {{ item.password }}
                         </td>
                         <td class="pl-3 py-2 text-xs text-gray-500 lg:table-cell">
                             <div class="flex justify-around">
@@ -76,9 +75,17 @@
     </div>
 </template>
 <script setup>
-    import {
-        PencilSquareIcon,
-        PlusIcon,
-    } from "@heroicons/vue/24/outline";
-    import { onMounted, reactive, ref } from "vue";
+import {
+    PencilSquareIcon,
+    PlusIcon,
+} from "@heroicons/vue/24/outline";
+import { onMounted, reactive, ref } from "vue";
+import userUser from "../../services/data/user";
+
+let i = 1;
+const { user, index } = userUser();
+
+onMounted(() => {
+    index();
+});
 </script>

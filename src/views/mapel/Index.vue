@@ -74,7 +74,7 @@
 <script setup>
 import { PencilSquareIcon, PlusIcon } from "@heroicons/vue/24/outline";
 import { onMounted, reactive, ref } from "vue";
-import useMapel from "../../services/data/user";
+import useMapel from "../../services/data/mapel";
 
 let i = 1;
 const { mapel, index, destroy } = useMapel();
