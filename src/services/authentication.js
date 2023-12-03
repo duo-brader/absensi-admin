@@ -10,6 +10,7 @@ export default function useAuthentication() {
   const errors = ref("");
   const { confirm, accepted, rejected } = useExecute();
   const user = ref([]);
+  const roles = ref([]);
 
   async function doLogin(payload) {
     try {
@@ -37,10 +38,8 @@ export default function useAuthentication() {
   }
 
   async function doRegister(payload) {
-    const response = await axios.post("/v1/auth/register", payload);
-    let token = await response.data.access_token;
-    setHeaderToken(token);
-    router.push("/dashboard");
+    const response = await axios.post("/api/v1/auth/register", payload);
+    router.back();
   }
 
   async function getAuth() {
@@ -93,6 +92,12 @@ export default function useAuthentication() {
     user.value = response.data;
   }
 
+  async function indexRoles() {
+    const response = await axios.get("api/v1/admin/roles");
+    console.log(response.data);
+    roles.value = response.data;
+  }
+
   return {
     auth,
     errors,
@@ -103,5 +108,7 @@ export default function useAuthentication() {
     getAuth,
     indexUser,
     user,
+    indexRoles,
+    roles,
   };
 }

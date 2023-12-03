@@ -10,7 +10,7 @@ export default function useUser() {
   async function index() {
     const response = await axios.get("/api/v1/user");
     console.log(response.data);
-    user.value = response.data.user;
+    user.value = response.data;
   }
 
   // async function store(payload) {
