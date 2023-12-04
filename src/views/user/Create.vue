@@ -6,15 +6,6 @@
                 <div class="shadow overflow-hidden rounded-md">
                     <div class="px-4 py-5 bg-white p-6">
                         <div class="grid grid-cols-6 gap-6">
-                            <!-- <div class="col-span-6 col-span-6">
-                                <label for="kategori" class="block text-xs font-medium text-gray-700">Kategori</label>
-                                <select id="kategori" name="kategori"
-                                    class="capitalize mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs">
-                                    <option v-for="item in mitra_kategori" :value="item.id">
-                                        {{ item.nama }}
-                                    </option>
-                                </select>
-                            </div> -->
                             <div class="col-span-6">
                                 <label for="nama" class="block text-xs font-medium text-gray-700">Nama</label>
                                 <input type="text" v-model="form.name"
@@ -65,7 +56,11 @@ import {
     PencilSquareIcon,
     ChevronLeftIcon,
 } from "@heroicons/vue/24/outline";
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
+import useAbsen from "../../services/data/absen";
+import useMapel from "../../services/data/mapel";
+
+const {index, mapel } = useMapel()
 
 const { doRegister } = useAuth();
 const form = reactive({
@@ -79,4 +74,8 @@ const save = async () => {
     await doRegister({ ...form });
     console.log({ ...form })
 };
+
+onMounted(() => {
+    index()
+})
 </script>

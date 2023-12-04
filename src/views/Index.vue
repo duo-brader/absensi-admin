@@ -300,6 +300,12 @@ const navigation = [
     icon: BookOpenIcon,
     current: false,
   },
+  {
+    name: "Laporan",
+    href: "#/laporan",
+    icon: BookOpenIcon,
+    current: false,
+  },
 ];
 
 const sidebarOpen = ref(false);

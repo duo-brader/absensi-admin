@@ -27,6 +27,18 @@
                   class="mt-1 p-2 font-medium bg-slate-100 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-base border-gray-300 rounded-md"
                 />
               </div>
+              <div class="col-span-6">
+                <label
+                  for="mapel"
+                  class="block text-xs font-medium text-gray-700"
+                  >Tipe</label
+                >
+                <select v-model="form.tipe" name="" id=""  class="mt-1 p-2 font-medium bg-slate-100 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-base border-gray-300 rounded-md">
+                  <option v-for="item in tipe" :value="item.tipe">
+                    {{ item.tipe }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
           <div class="px-4 py-3 bg-gray-50">
@@ -58,18 +70,28 @@
 <script setup>
 import { PencilSquareIcon, ChevronLeftIcon } from "@heroicons/vue/24/outline";
 import { onMounted, reactive, watch } from "vue";
-import useMapel from "../../services/data/user";
+import useMapel from "../../services/data/mapel";
 import { useRoute } from "vue-router";
 
 const { mapel, show, update } = useMapel();
 const router = useRoute();
 
+const tipe = [
+  {
+    tipe: "umum"
+  },
+  {
+    tipe: "produktif"
+  },
+]
+
 const form = reactive({
   mapel: "",
+  tipe: ""
 });
-
 watch(mapel, (item) => {
   form.mapel = item.mapel;
+  form.tipe = item.tipe
 });
 
 const save = async () => {

@@ -5,6 +5,7 @@ const Dashboard = () => import("@/views/Dashboard.vue");
 const User = () => import("@/views/user/Index.vue");
 const Kelas = () => import("@/views/kelas/Index.vue");
 const Mapel = () => import("@/views/mapel/Index.vue");
+const Laporan = () => import("@/views/laporan/Index.vue");
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -74,6 +75,11 @@ const router = createRouter({
           path: "/mapel/edit/:id",
           name: "mapel-edit",
           component: () => import("@/views/mapel/Edit.vue"),
+        },
+        {
+          path: "/laporan",
+          name: "laporan",
+          component: Laporan,
         },
       ],
     },

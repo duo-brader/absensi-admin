@@ -33,6 +33,12 @@
             </th>
             <th
               scope="col"
+              class="pr-3 py-2.5 text-center text-xs font-semibold text-white"
+            >
+              Tipe Mapel
+            </th>
+            <th
+              scope="col"
               class="px-3 py-2.5 text-center text-xs font-semibold text-white"
             >
               Action
@@ -48,6 +54,9 @@
             </td>
             <td class="pr-3 py-2 text-xs text-gray-500 lg:table-cell">
               {{ item.mapel }}
+            </td>
+            <td class="pr-3 py-2 text-xs text-gray-500 lg:table-cell">
+              {{ item.tipe }}
             </td>
             <td class="pl-3 py-2 text-xs text-gray-500 lg:table-cell">
               <div class="flex justify-center gap-5">

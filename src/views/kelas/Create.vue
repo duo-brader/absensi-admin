@@ -27,6 +27,18 @@
                   class="mt-1 p-2 font-medium bg-slate-100 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-base border-gray-300 rounded-md"
                 />
               </div>
+              <div class="col-span-6">
+                <label
+                  for="mapel"
+                  class="block text-xs font-medium text-gray-700"
+                  >Tipe</label
+                >
+                <select v-model="form.metode_pembelajaran" name="" id=""  class="mt-1 p-2 font-medium bg-slate-100 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-base border-gray-300 rounded-md">
+                  <option v-for="item in tipe" :value="item.tipe">
+                    {{ item.tipe }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
           <div class="px-4 py-3 bg-gray-50">
@@ -62,8 +74,18 @@ import useKelas from "../../services/data/kelas";
 
 const { store } = useKelas();
 
+const tipe = [
+  {
+    tipe: "pjj"
+  },
+  {
+    tipe: "pkk"
+  },
+]
+
 const form = reactive({
   kelas: "",
+  metode_pembelajaran: ""
 });
 
 const save = async () => {
