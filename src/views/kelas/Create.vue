@@ -6,15 +6,6 @@
         <div class="shadow overflow-hidden rounded-md">
           <div class="px-4 py-5 bg-white p-6">
             <div class="grid grid-cols-6 gap-6">
-              <!-- <div class="col-span-6 col-span-6">
-                                <label for="kategori" class="block text-xs font-medium text-gray-700">Kategori</label>
-                                <select id="kategori" name="kategori"
-                                    class="capitalize mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-xs">
-                                    <option v-for="item in mitra_kategori" :value="item.id">
-                                        {{ item.nama }}
-                                    </option>
-                                </select>
-                            </div> -->
               <div class="col-span-6">
                 <label
                   for="kelas"
@@ -29,13 +20,18 @@
               </div>
               <div class="col-span-6">
                 <label
-                  for="mapel"
+                  for="kelas"
                   class="block text-xs font-medium text-gray-700"
-                  >Tipe</label
+                  >Metode Pembelajaran</label
                 >
-                <select v-model="form.metode_pembelajaran" name="" id=""  class="mt-1 p-2 font-medium bg-slate-100 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-base border-gray-300 rounded-md">
-                  <option v-for="item in tipe" :value="item.tipe">
-                    {{ item.tipe }}
+                <select
+                  v-model="form.metode_pembelajaran"
+                  class="mt-1 p-2 font-medium bg-slate-100 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-base border-gray-300 rounded-md"
+                  name=""
+                  id=""
+                >
+                  <option v-for="item in metode" :value="item.metode">
+                    {{ item.metode }}
                   </option>
                 </select>
               </div>
@@ -69,23 +65,22 @@
 </template>
 <script setup>
 import { PencilSquareIcon, ChevronLeftIcon } from "@heroicons/vue/24/outline";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import useKelas from "../../services/data/kelas";
 
 const { store } = useKelas();
-
-const tipe = [
+const metode = [
   {
-    tipe: "pjj"
+    metode: "pjj",
   },
   {
-    tipe: "pkk"
+    metode: "pkk",
   },
-]
+];
 
 const form = reactive({
   kelas: "",
-  metode_pembelajaran: ""
+  metode_pembelajaran: "",
 });
 
 const save = async () => {
