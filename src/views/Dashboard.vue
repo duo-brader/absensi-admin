@@ -45,9 +45,14 @@ const menu = [
         icon: BookOpenIcon,
     },
     {
-        name: "Absensi",
+        name: "Absensi Umum",
         icon: FingerPrintIcon,
         value: 1,
+    },
+    {
+        name: "Absensi Produktif",
+        icon: FingerPrintIcon,
+        value: 2,
     },
 ];
 

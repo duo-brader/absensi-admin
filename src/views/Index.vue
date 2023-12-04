@@ -306,6 +306,12 @@ const navigation = [
     icon: BookOpenIcon,
     current: false,
   },
+  {
+    name: "Absen",
+    href: "#/absen",
+    icon: BookOpenIcon,
+    current: false,
+  },
 ];
 
 const sidebarOpen = ref(false);

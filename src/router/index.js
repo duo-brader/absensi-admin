@@ -6,6 +6,7 @@ const User = () => import("@/views/user/Index.vue");
 const Kelas = () => import("@/views/kelas/Index.vue");
 const Mapel = () => import("@/views/mapel/Index.vue");
 const Laporan = () => import("@/views/laporan/Index.vue");
+const Absen = () => import("@/views/absen/Index.vue");
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -80,6 +81,11 @@ const router = createRouter({
           path: "/laporan",
           name: "laporan",
           component: Laporan,
+        },
+        {
+          path: "/absen",
+          name: "absen",
+          component: Absen,
         },
       ],
     },

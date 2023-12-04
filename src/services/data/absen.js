@@ -33,9 +33,20 @@ export default function useAbsen() {
         }
     }
 
+    async function indexAbsen() {
+        try {
+            const response = await axios.get("/api/v1/admin/absen");
+            console.log(response.data);
+            absen.value = response.data;
+        } catch (error) {
+            console.error("Failed to fetch absen data", error);
+        }
+    }
+
     return {
         store,
         index,
+        indexAbsen,
         absen,
     };
 }
