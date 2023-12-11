@@ -134,12 +134,15 @@
 import useJurusan from "../../services/data/jurusan";
 import useMapel from "../../services/data/mapel";
 import useAuth from "@/services/authentication";
+import useUser from "../../services/data/user";
+import { useRoute } from "vue-router";
 import { PencilSquareIcon, ChevronLeftIcon } from "@heroicons/vue/24/outline";
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, watch } from "vue";
 
 const { doRegister, indexRoles, roles } = useAuth();
 const { index, jurusan } = useJurusan();
 const { indexMapel, mapel } = useMapel();
+const { show, user, update } = useUser();
 const form = reactive({
   nama: "",
   username: "",
@@ -149,14 +152,30 @@ const form = reactive({
   jurusan_id: "",
 });
 
+const router = useRoute();
+
 const save = async () => {
-  await doRegister({ ...form });
+  await update({ ...form }, router.params.id);
   console.log({ ...form });
 };
+
+watch(user, (item) => {
+  form.nama = item.nama;
+  form.username = item.username;
+  form.password = item.password;
+  form.jurusan_id = item.jurusan_id;
+  form.mapel_id = item.mapel_id;
+  form.roles_id = item.roles_id;
+});
 
 onMounted(() => {
   index();
   indexMapel();
   indexRoles();
+  show(router.params.id);
+
+  setTimeout(() => {
+    console.table(user.value);
+  }, 1200);
 });
 </script>

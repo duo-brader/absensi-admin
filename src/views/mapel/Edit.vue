@@ -33,7 +33,12 @@
                   class="block text-xs font-medium text-gray-700"
                   >Tipe</label
                 >
-                <select v-model="form.tipe" name="" id=""  class="mt-1 p-2 font-medium bg-slate-100 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-base border-gray-300 rounded-md">
+                <select
+                  v-model="form.tipe"
+                  name=""
+                  id=""
+                  class="mt-1 p-2 font-medium bg-slate-100 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm text-base border-gray-300 rounded-md"
+                >
                   <option v-for="item in tipe" :value="item.tipe">
                     {{ item.tipe }}
                   </option>
@@ -78,20 +83,20 @@ const router = useRoute();
 
 const tipe = [
   {
-    tipe: "umum"
+    tipe: "umum",
   },
   {
-    tipe: "produktif"
+    tipe: "produktif",
   },
-]
+];
 
 const form = reactive({
   mapel: "",
-  tipe: ""
+  tipe: "",
 });
 watch(mapel, (item) => {
   form.mapel = item.mapel;
-  form.tipe = item.tipe
+  form.tipe = item.tipe;
 });
 
 const save = async () => {
