@@ -7,6 +7,7 @@ const Kelas = () => import("@/views/kelas/Index.vue");
 const Mapel = () => import("@/views/mapel/Index.vue");
 const Laporan = () => import("@/views/laporan/Index.vue");
 const Absen = () => import("@/views/absen/Index.vue");
+const Jadwal = () => import("@/views/jadwal/Index.vue");
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -88,6 +89,14 @@ const router = createRouter({
           component: Absen,
         },
       ],
+    },
+    {
+      path: "/jadwal",
+      name: "jadwal",
+      component: Jadwal,
+      meta: {
+        authRequired: true,
+      },
     },
   ],
 });
