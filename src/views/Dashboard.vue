@@ -14,7 +14,13 @@
                 </dt>
                 <dd class="ml-20 items-baseline pb-4">
                     <p v-if="item.value === 1 && absen.data" class="text-sm font-semibold text-slate-900">
-                        {{ absen.data.persentase }} %
+                        {{ absen.data.persentaseUmum }} %
+                    </p>
+                    <p v-if="item.value === 2 && absen.data" class="text-sm font-semibold text-slate-900">
+                        {{ absen.data.persentaseProduktif }} %
+                    </p>
+                    <p v-if="item.value === 3 && absen.data" class="text-sm font-semibold text-slate-900">
+                        {{ absen.data.totalAbsen }} %
                     </p>
                     <p v-else class="text-sm font-semibold text-slate-900">
                         kosong
@@ -30,7 +36,7 @@ import { ref, onMounted } from "vue";
 import useAbsen from "../services/data/absen";
 import { UserIcon, AcademicCapIcon, BookOpenIcon, FingerPrintIcon } from "@heroicons/vue/24/outline";
 
-const { index, absen } = useAbsen();
+const { absen, totalAbsen } = useAbsen();
 const menu = [
     {
         name: "User",
@@ -47,19 +53,24 @@ const menu = [
     {
         name: "Absensi Umum",
         icon: FingerPrintIcon,
-        value: 1,
+        // value: 1,
     },
     {
         name: "Absensi Produktif",
         icon: FingerPrintIcon,
-        value: 2,
+        // value: 2,
+    },
+    {
+        name: "Absensi",
+        icon: FingerPrintIcon,
+        // value: 3,
     },
 ];
 
 const mergedData = ref([]);
 
 onMounted(async () => {
-    await index();
+    await totalAbsen();
     mergedData.value = [...menu, ...(absen.data ? [absen.data] : [])];
 });
 

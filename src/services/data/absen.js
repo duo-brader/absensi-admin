@@ -42,11 +42,22 @@ export default function useAbsen() {
             console.error("Failed to fetch absen data", error);
         }
     }
+    
+    async function totalAbsen() {
+        try {
+            const response = await axios.get("/api/v1/admin/total");
+            console.log(response.data);
+            absen.value = response.data;
+        } catch (error) {
+            console.error("Failed to fetch absen data", error);
+        }
+    }
 
     return {
         store,
         index,
         indexAbsen,
+        totalAbsen,
         absen,
     };
 }
