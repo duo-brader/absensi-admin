@@ -66,6 +66,12 @@
                 >
                   <PencilSquareIcon class="w-5" /> Edit
                 </router-link>
+                <router-link
+                  :to="{ name: 'jadwal', params: { id: item.id } }"
+                  class="flex gap-2 text-sm px-5 py-2 rounded-md bg-green-500 hover:bg-green-600 text-white"
+                >
+                  <PencilSquareIcon class="w-5" /> Jadwal
+                </router-link>
                 <button
                   @click="destroy(item.id)"
                   class="flex gap-2 text-sm px-5 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
