@@ -39,7 +39,7 @@
               scope="col"
               class="px-3 py-2.5 text-left text-xs font-semibold text-white"
             >
-              PKK
+              PLK
             </th>
             <!-- <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-white">
                             Persentase
@@ -60,7 +60,7 @@
               {{ (item.metode_pjj / 50) * 100 }} %
             </td>
             <td class="px-3 py-2 text-xs text-gray-500 lg:table-cell">
-              {{ (item.metode_pkk / 50) * 100 }} %
+              {{ (item.metode_plk / 50) * 100 }} %
             </td>
             <!-- <td class="px-3 py-2 text-xs text-gray-500 lg:table-cell">
                             {{ item.persentaseUmum }} %
