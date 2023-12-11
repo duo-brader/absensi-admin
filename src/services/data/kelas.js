@@ -13,6 +13,16 @@ export default function useKelas() {
     kelas.value = response.data.kelas;
   }
 
+  async function totalKelas() {
+    try {
+      const response = await axios.get("/api/v1/totalKelas");
+      console.log(response.data);
+      kelas.value = response.data;
+    } catch (error) {
+      console.error("Failed to fetch kelas data", error);
+    }
+  }
+
   async function store(payload) {
     try {
       const response = await axios.post("/api/v1/kelas", payload);
@@ -71,6 +81,7 @@ export default function useKelas() {
 
   return {
     index,
+    totalKelas,
     store,
     show,
     update,

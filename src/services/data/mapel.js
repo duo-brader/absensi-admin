@@ -13,6 +13,16 @@ export default function useMapel() {
     mapel.value = response.data.mapel;
   }
 
+  async function totalMapel() {
+    try {
+      const response = await axios.get("/api/v1/totalMapel");
+      console.log(response.data);
+      mapel.value = response.data;
+    } catch (error) {
+      console.error("Failed to fetch mapel data", error);
+    }
+  }
+
   async function store(payload) {
     try {
       const response = await axios.post("/api/v1/mapel", payload);
@@ -71,6 +81,7 @@ export default function useMapel() {
 
   return {
     indexMapel,
+    totalMapel,
     mapel,
     update,
     show,

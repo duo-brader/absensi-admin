@@ -39,6 +39,9 @@ export default function useAuthentication() {
 
   async function doRegister(payload) {
     const response = await axios.post("/api/v1/auth/register", payload);
+    if (response) {
+      accepted("Data berhasil disimpan");
+    }
     router.back();
   }
 

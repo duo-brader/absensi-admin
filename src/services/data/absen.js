@@ -45,7 +45,7 @@ export default function useAbsen() {
     
     async function totalAbsen() {
         try {
-            const response = await axios.get("/api/v1/admin/total");
+            const response = await axios.get("/api/v1/admin/totalAbsen");
             console.log(response.data);
             absen.value = response.data;
         } catch (error) {
