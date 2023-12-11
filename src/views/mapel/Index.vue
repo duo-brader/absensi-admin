@@ -86,9 +86,9 @@ import { onMounted, reactive, ref } from "vue";
 import useMapel from "../../services/data/mapel";
 
 let i = 1;
-const { mapel, index, destroy } = useMapel();
+const { mapel, indexMapel, destroy } = useMapel();
 
 onMounted(() => {
-  index();
+  indexMapel();
 });
 </script>

@@ -88,12 +88,13 @@
             <td class="pl-3 py-2 text-xs text-gray-500 lg:table-cell">
               <div class="flex justify-around">
                 <router-link
-                  :to="{ name: 'user-edit' }"
+                  :to="{ name: 'user-edit', params: { id: item.id } }"
                   class="flex gap-2 text-sm px-5 py-2 rounded-md bg-orange-500 hover:bg-orange-600 text-white"
                 >
                   <PencilSquareIcon class="w-5" /> Edit
                 </router-link>
                 <button
+                  @click="destroy(item.id)"
                   class="flex gap-2 text-sm px-5 py-2 rounded-md bg-red-600 hover:bg-red-700 text-white"
                 >
                   <PencilSquareIcon class="w-5" /> Delete
@@ -112,7 +113,7 @@ import { onMounted, reactive, ref } from "vue";
 import userUser from "../../services/data/user";
 
 let i = 1;
-const { user, index } = userUser();
+const { user, index, destroy } = userUser();
 
 onMounted(() => {
   index();

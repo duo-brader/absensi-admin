@@ -74,7 +74,7 @@ const metode = [
     metode: "pjj",
   },
   {
-    metode: "pkk",
+    metode: "plk",
   },
 ];
 
