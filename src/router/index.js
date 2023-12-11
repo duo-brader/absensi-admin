@@ -91,7 +91,7 @@ const router = createRouter({
       ],
     },
     {
-      path: "/jadwal",
+      path: "/jadwa/:id",
       name: "jadwal",
       component: Jadwal,
       meta: {
