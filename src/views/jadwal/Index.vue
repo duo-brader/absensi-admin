@@ -6,11 +6,12 @@
       <div
         class="flex gap-12"
         @drop="onDrop($event, 0)"
-        @dragenter.prevent,
+        @dragenter.prevent
         @dragover.prevent
       >
         <div
           v-for="item in getList(0)"
+          :key="item.id"
           class="w-12 h-12 bg-blue-300"
           draggable="true"
           @dragstart="startDrag($event, item)"
@@ -21,26 +22,34 @@
     </div>
     <table class="table-auto border border-black w-80">
       <tr class="border border-black">
-        <th class="border p-4 border-black" v-for="item in 11">{{ item }}</th>
+        <th class="border p-4 border-black" v-for="item in 11" :key="item">
+          {{ item }}
+        </th>
       </tr>
-      <tr class="border w-12 border-black" v-for="item in hari">
+      <tr
+        class="border w-12 border-black"
+        v-for="(item, rowIndex) in hari"
+        :key="item.hari"
+      >
         <td class="border p-12 border-black">
           {{ item.hari }}
         </td>
         <td
-          v-bind="col"
-          id="col"
+          v-bind:class="col"
           class="border relative p-12 border-black hover:bg-slate-200"
-          v-for="(index, item) in 10"
-          @drop="onDrop($event, index)"
-          @dragenter.prevent,
+          v-for="(item, colIndex) in 10"
+          :key="colIndex"
+          @drop="onDrop($event, rowIndex, colIndex)"
+          @dragenter.prevent
           @dragover.prevent
         >
+          {{ rowIndex * 10 + colIndex + 1 }}
           <div
-            v-for="(index, item) in getList(index)"
+            v-for="(item, itemIndex) in getList(rowIndex, colIndex)"
+            :key="itemIndex"
             class="w-full h-full absolute bg-blue-300 top-0 left-0"
             draggable="true"
-            @dragstart="startDrag($event, index)"
+            @dragstart="startDrag($event, item)"
           >
             {{ item.nama }}
           </div>
@@ -51,44 +60,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
 const hari = [
-  {
-    hari: "Senin",
-  },
-  {
-    hari: "Selasa",
-  },
-  {
-    hari: "Rabu",
-  },
-  {
-    hari: "Kamis",
-  },
-  {
-    hari: "Jum'at",
-  },
+  { hari: "Senin" },
+  { hari: "Selasa" },
+  { hari: "Rabu" },
+  { hari: "Kamis" },
+  { hari: "Jum'at" },
 ];
 
 const data = ref([
-  {
-    id: 0,
-    nama: "A",
-    list: 0,
-  },
-  {
-    id: 1,
-    nama: "B",
-    list: 0,
-  },
+  { id: 0, nama: "A", list: 0 },
+  { id: 1, nama: "B", list: 0 },
 ]);
 
-const col = ref([]);
-const uniqueId = 1;
-
-function getList(list) {
-  return data.value.filter((item) => item.list == list);
+function getList(row, col) {
+  return data.value.filter((item) => item.list === row * 10 + col);
 }
 
 function startDrag(event, item) {
@@ -98,9 +86,10 @@ function startDrag(event, item) {
   event.dataTransfer.setData("itemId", item.id);
 }
 
-function onDrop(event, list) {
+function onDrop(event, row, col) {
+  console.log(row, col);
   const itemId = event.dataTransfer.getData("itemId");
   const item = data.value.find((item) => item.id == itemId);
-  item.list = list;
+  item.list = row * 10 + col;
 }
 </script>
