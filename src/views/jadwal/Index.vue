@@ -5,11 +5,6 @@
       <ChevronLeftIcon class="mr-2 h-4 w-4" aria-hidden="false" />
       Kembali
     </router-link>
-    <div class="flex items-center">
-      <label for="colInput" class="mr-2">Kolom:</label>
-      <input v-model="colInput" type="number" id="colInput" name="colInput"
-        class="px-2 py-1 border border-gray-300 rounded-md">
-    </div>
     <button @click="exportPDF" class="bg-red-500 text-white px-12 py-2 rounded-bl-md">
       Export PDF
     </button>
@@ -21,7 +16,7 @@
       </h3>
       <table ref="tableToExport" class="table-auto border m-10 border-black w-80">
         <tr class="border border-black">
-          <th class="border p-4 border-black" v-for="item in colInput" :key="item">
+          <th class="border p-4 border-black" v-for="item in 11" :key="item">
             {{ item }}
           </th>
         </tr>
@@ -29,15 +24,14 @@
           <td class="border p-12 border-black">
             {{ item.hari }}
           </td>
-          <td class="border relative p-12 border-black hover:bg-slate-200" v-for="(item, colIndex) in colInput"
-            :key="colIndex" @drop="onDrop($event, rowIndex, colIndex)" @dragenter.prevent @dragover.prevent>
-            <div class="relative">
-              {{ rowIndex * colInput + colIndex + 1 }}
-            </div>
+          <td v-bind:class="col" class="border relative p-12 border-black hover:bg-slate-200"
+            v-for="(item, colIndex) in 10" :key="colIndex" @drop="onDrop($event, rowIndex, colIndex)" @dragenter.prevent
+            @dragover.prevent>
+            <!-- {{ rowIndex * 10 + colIndex + 1 }} -->
             <div v-for="(item, itemIndex) in getList(rowIndex, colIndex)" :key="itemIndex"
               class="w-full h-full flex font-bold text-center text-base justify-center flex-col items-center absolute bg-blue-300 top-0 left-0"
               draggable="true" @dragstart="startDrag($event, item)">
-              <div>{{ item.mapel?.mapel }}</div>
+              {{ item.mapel?.mapel }}
               <h3 class="font-medium text-xs ">{{ item.nama }}</h3>
             </div>
           </td>
@@ -48,13 +42,13 @@
 </template>
 
 <script setup>
-  import { ChevronLeftIcon } from "@heroicons/vue/24/outline";
-  import html2canvas from "html2canvas";
-  import jsPDF from "jspdf";
-  import { ref, onMounted, computed } from "vue";
-  import useKelas from "../../services/data/kelas";
-  import { useRoute } from "vue-router";
-  import useUser from "../../services/data/user";
+import { ChevronLeftIcon } from "@heroicons/vue/24/outline";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { ref, onMounted } from "vue";
+import useKelas from "../../services/data/kelas";
+import { useRoute } from "vue-router";
+import useUser from "../../services/data/user";
 
 
   const { show, kelas } = useKelas();
@@ -100,21 +94,21 @@
     item.list = row * colInput.value + col;
   }
 
-  const tableToExport = ref(null);
-  async function exportPDF() {
-    const table = tableToExport.value;
+const tableToExport = ref(null);
+async function exportPDF() {
+  const table = tableToExport.value;
 
     // Use html2canvas to capture the table as an image
     const canvas = await html2canvas(table);
 
-    // Initialize jsPDF with landscape orientation
-    const pdf = new jsPDF("l", "mm", "a4");
+  // Initialize jsPDF with landscape orientation
+  const pdf = new jsPDF("l", "mm", "a4");
 
-    // Add the captured image to the PDF
-    pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, 297, 210);
+  // Add the captured image to the PDF
+  pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, 297, 210);
 
-    // Save or open the PDF
-    pdf.save(`jadwal.pdf`);
-  }
+  // Save or open the PDF
+  pdf.save(`jadwal.pdf`);
+}
 
 </script>

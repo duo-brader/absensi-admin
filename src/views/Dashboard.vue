@@ -13,11 +13,26 @@
                     </p>
                 </dt>
                 <dd class="ml-20 items-baseline pb-4">
-                    <p v-if="item.value === 1 && absen.data" class="text-sm font-semibold text-slate-900">
-                        {{ absen.data.persentase }} %
-                    </p>
-                    <p v-else class="text-sm font-semibold text-slate-900">
+                    <p v-if="item.value === 1" class="text-sm font-semibold text-slate-900">
+                        <!-- {{ absen.data.persentaseUmum }} % -->
                         kosong
+                    </p>
+                    <p v-if="item.value === 2" class="text-sm font-semibold text-slate-900">
+                        <!-- {{ absen.data.persentaseProduktif }} % -->
+                        kosong
+                    </p>
+                    <p v-if="item.value === 3" class="text-sm font-semibold text-slate-900">
+                        <!-- {{ absen.data.totalAbsen }} % -->
+                        kosong
+                    </p>
+                    <p v-if="item.value === 4 && user" class="text-sm font-semibold text-slate-900">
+                        {{ user }}
+                    </p>
+                    <p v-if="item.value === 5 && kelas" class="text-sm font-semibold text-slate-900">
+                        {{ kelas }}
+                    </p>
+                    <p v-if="item.value === 6 && mapel" class="text-sm font-semibold text-slate-900">
+                        {{ mapel }}
                     </p>
                 </dd>
             </a>
@@ -27,40 +42,57 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import useAbsen from "../services/data/absen";
 import { UserIcon, AcademicCapIcon, BookOpenIcon, FingerPrintIcon } from "@heroicons/vue/24/outline";
+import useAbsen from "../services/data/absen";
+import useUser from "../services/data/user";
+import useKelas from "../services/data/kelas";
+import useMapel from "../services/data/mapel";
 
-const { index, absen } = useAbsen();
+const { absen, totalAbsen } = useAbsen();
+const { kelas, totalKelas } = useKelas();
+const { user, totalUser } = useUser();
+const { mapel, totalMapel } = useMapel();
 const menu = [
     {
-        name: "User",
-        icon: UserIcon,
+        name: "Mapel",
+        icon: BookOpenIcon,
+        value: 6,
     },
     {
         name: "Kelas",
         icon: AcademicCapIcon,
+        value: 5,
     },
     {
-        name: "Mapel",
-        icon: BookOpenIcon,
+        name: "User",
+        icon: UserIcon,
+        value: 4,
+    },
+    // {
+    //     name: "Absensi",
+    //     icon: FingerPrintIcon,
+    //     value: 3,
+    // },
+    {
+        name: "Absensi Produktif",
+        icon: FingerPrintIcon,
+        value: 2,
     },
     {
         name: "Absensi Umum",
         icon: FingerPrintIcon,
         value: 1,
     },
-    {
-        name: "Absensi Produktif",
-        icon: FingerPrintIcon,
-        value: 2,
-    },
 ];
 
 const mergedData = ref([]);
 
 onMounted(async () => {
-    await index();
-    mergedData.value = [...menu, ...(absen.data ? [absen.data] : [])];
+    await totalAbsen();
+    await totalUser();
+    await totalKelas();
+    await totalMapel();
+    mergedData.value = [...menu, ...(absen.data ? [absen.data] : []), ...(user.data ? [user.data] : []), ...(kelas.data ? [kelas.data] : []), ...(mapel.data ? [mapel.data] : [])];
 });
 
 </script>

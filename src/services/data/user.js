@@ -13,19 +13,15 @@ export default function useUser() {
     user.value = response.data;
   }
 
-  // async function store(payload) {
-  //   try {
-  //     const response = await axios.post("/api/v1/mapel", payload);
-  //     console.log(response.data);
-  //     accepted(response.data.message);
-  //     router.back();
-  //   } catch (error) {
-  //     if (axios.isAxiosError(error)) {
-  //       console.log(error.response?.data);
-  //       rejected(error.response?.data);
-  //     }
-  //   }
-  // }
+  async function totalUser() {
+    try {
+      const response = await axios.get("/api/v1/totalUser");
+      console.log(response.data);
+      user.value = response.data;
+    } catch (error) {
+      console.error("Failed to fetch user data", error);
+    }
+  }
 
   async function update(payload, id) {
     const response = await confirm("yakin ubah data ini?");
@@ -59,7 +55,9 @@ export default function useUser() {
         const response = await axios.delete(`/api/v1/admin/user/${id}`);
         console.log(response.data);
         accepted(response.data.message);
-        router.back();
+        setTimeout(() => {
+          index();
+        }, 1200);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.log(error.response?.data);
@@ -71,6 +69,7 @@ export default function useUser() {
 
   return {
     index,
+    totalUser,
     user,
     show,
     update,
