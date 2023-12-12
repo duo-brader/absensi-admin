@@ -49,6 +49,7 @@
           @dragenter.prevent
           @dragover.prevent
         >
+          <!-- test -->
           <div class="w-[100px] h-full absolute top-0 right-0">
             <VueResizable>
               <div
