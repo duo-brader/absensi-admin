@@ -7,6 +7,7 @@
       <button @click="exportPDF" class="mt-5 bg-red-500 text-white px-12 py-4">
         Export PDF
       </button>
+      <input type="text" v-model="baris" />
       <div
         class="flex gap-12"
         @drop="onDrop($event, 0)"
@@ -26,8 +27,8 @@
     </div>
     <table ref="tableToExport" class="table-auto border border-black w-80">
       <tr class="border border-black">
-        <th class="border p-4 border-black" v-for="item in 11" :key="item">
-          {{ item }}
+        <th class="border p-4 border-black" v-for="item in baris" :key="item">
+          {{ item - 1 }}
         </th>
       </tr>
       <tr
@@ -38,25 +39,29 @@
         <td class="border p-12 border-black">
           {{ item.hari }}
         </td>
+
         <td
           v-bind:class="col"
-          class="border relative p-12 border-black hover:bg-slate-200"
-          v-for="(item, colIndex) in 10"
+          class="border z-10 relative p-12 border-black"
+          v-for="(item, colIndex) in baris - 1"
           :key="colIndex"
           @drop="onDrop($event, rowIndex, colIndex)"
           @dragenter.prevent
           @dragover.prevent
         >
-          <!-- {{ rowIndex * 10 + colIndex + 1 }} -->
-          <div
-            v-for="(item, itemIndex) in getList(rowIndex, colIndex)"
-            :key="itemIndex"
-            class="w-full h-full flex justify-center flex-col items-center absolute bg-blue-300 top-0 left-0"
-            draggable="true"
-            @dragstart="startDrag($event, item)"
-          >
-            {{ item.nama }}
-            <h3 class="font-bold text-xl">{{ item.mapel?.mapel }}</h3>
+          <div class="w-[100px] h-full absolute top-0 right-0">
+            <VueResizable>
+              <div
+                v-for="(item, itemIndex) in getList(rowIndex, colIndex)"
+                :key="itemIndex"
+                class="w-full h-full flex justify-center flex-col items-center absolute z-20 bg-blue-300 top-0 left-0 overflow-hidden"
+                draggable="true"
+                @dragstart="startDrag($event, item)"
+              >
+                {{ item.nama }}
+                <h3 class="font-bold text-xl">{{ item.mapel?.mapel }}</h3>
+              </div>
+            </VueResizable>
           </div>
         </td>
       </tr>
@@ -71,8 +76,9 @@ import { ref, onMounted } from "vue";
 import useKelas from "../../services/data/kelas";
 import { useRoute } from "vue-router";
 import useUser from "../../services/data/user";
+import VueResizable from "vue-resizable";
 
-const { show, kelas } = useKelas();
+const { show, kelas, indexKelas } = useKelas();
 const { user, index } = useUser();
 
 const router = useRoute();
@@ -85,13 +91,16 @@ const hari = [
   { hari: "Jum'at" },
 ];
 
+const baris = ref(11);
+
 const data = ref([
   { id: 0, nama: "A", list: 0 },
   { id: 1, nama: "B", list: 0 },
 ]);
 
-onMounted(() => {
+onMounted(async () => {
   show(router.params.id);
+  await indexKelas();
   index();
 });
 

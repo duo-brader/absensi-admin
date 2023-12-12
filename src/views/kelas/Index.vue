@@ -91,10 +91,10 @@ import { PencilSquareIcon, PlusIcon } from "@heroicons/vue/24/outline";
 import { onMounted, reactive, ref } from "vue";
 import useKelas from "../../services/data/kelas";
 
-const { index, kelas, destroy } = useKelas();
+const { indexKelas, kelas, destroy } = useKelas();
 let i = 1;
 
 onMounted(() => {
-  index();
+  indexKelas();
 });
 </script>

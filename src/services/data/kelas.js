@@ -7,9 +7,9 @@ export default function useKelas() {
   const kelas = ref([]);
   const { accepted, confirm, rejected } = useSwal();
 
-  async function index() {
+  async function indexKelas() {
     const response = await axios.get("/api/v1/kelas");
-    console.log(response.data);
+    console.log(response.data.kelas);
     kelas.value = response.data.kelas;
   }
 
@@ -70,7 +70,7 @@ export default function useKelas() {
   }
 
   return {
-    index,
+    indexKelas,
     store,
     show,
     update,
